@@ -493,6 +493,7 @@ export const QueryInput: React.FC<QueryInputProps> = ({ index }) => {
         rows={rows}
         spellCheck={false}
         value={text}
+        data-test="query-input"
       />
       <CloseButton
         additionalClassName="query-browser__clear-icon"
@@ -929,7 +930,7 @@ const RunQueriesButton: React.FC<{}> = () => {
   const runQueries = React.useCallback(() => dispatch(queryBrowserRunQueries()), [dispatch]);
 
   return (
-    <Button onClick={runQueries} type="submit" variant="primary">
+    <Button onClick={runQueries} type="submit" variant="primary" data-test="run-queries-button">
       {t('public~Run queries')}
     </Button>
   );

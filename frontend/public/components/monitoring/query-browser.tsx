@@ -903,7 +903,7 @@ const QueryBrowser_: React.FC<QueryBrowserProps> = ({
               'graph-wrapper--query-browser--with-legend': showLegend && !!formatSeriesTitle,
             })}
           >
-            <div ref={containerRef} style={{ width: '100%' }}>
+            <div data-test="graph-container" ref={containerRef} style={{ width: '100%' }}>
               {width > 0 && (
                 <>
                   {disableZoom ? (
