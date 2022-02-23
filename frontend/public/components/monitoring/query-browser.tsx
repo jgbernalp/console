@@ -519,6 +519,9 @@ const minSpan = 30 * 1000;
 // Don't poll more often than this number of milliseconds
 const minPollInterval = 10 * 1000;
 
+// Debounce time when resampling is required due to a large dataset
+const resampleThresholdTime = 50;
+
 const ZoomableGraph: React.FC<ZoomableGraphProps> = ({
   allSeries,
   disabledSeries,
@@ -664,6 +667,7 @@ const QueryBrowser_: React.FC<QueryBrowserProps> = ({
   const [containerRef, width] = useRefWidth();
 
   const endTime = xDomain?.[1];
+  const lastEndTime = React.useRef<number | null>(null);
 
   const safeFetch = useSafeFetch();
 
@@ -703,7 +707,13 @@ const QueryBrowser_: React.FC<QueryBrowserProps> = ({
     }
 
     // Define this once for all queries so that they have exactly the same time range and X values
-    const now = Date.now();
+    let now = Date.now();
+
+    if (lastEndTime.current !== null && now - lastEndTime.current > resampleThresholdTime) {
+      now = lastEndTime.current;
+    } else {
+      lastEndTime.current = now;
+    }
 
     const allPromises = _.map(queries, (query) =>
       _.isEmpty(query)
