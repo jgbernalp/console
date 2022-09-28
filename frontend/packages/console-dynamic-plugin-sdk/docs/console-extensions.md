@@ -949,6 +949,23 @@ Adds new reducer to Console Redux store which operates on `plugins.<scope>` subs
 
 ---
 
+## `console.tab`
+
+### Summary 
+
+Adds a tab to a horizontal nav matching the `contextId`.
+
+### Properties
+
+| Name | Value Type | Optional | Description |
+| ---- | ---------- | -------- | ----------- |
+| `contextId` | `string` | no | Context ID assigned to the horizontal nav in which the tab will be injected.<br/>Possible values:<br/>- `dev-console-observe` |
+| `name` | `string` | no | The display label of the tab |
+| `href` | `string` | no | The href appended to the existing URL |
+| `component` | `CodeRef<React.ComponentType<PageComponentProps<K8sResourceCommon>>>` | no | Tab content component. |
+
+---
+
 ## `console.tab/horizontalNav`
 
 ### Summary 
