@@ -39,7 +39,11 @@ import {
   silenceMatcherEqualitySymbol,
 } from '@console/internal/components/monitoring/utils';
 import { NotificationAlerts } from '@console/internal/reducers/observe';
-import { RedExclamationCircleIcon, useCanClusterUpgrade } from '@console/shared';
+import {
+  RedExclamationCircleIcon,
+  useActiveNamespace,
+  useCanClusterUpgrade,
+} from '@console/shared';
 import {
   getAlertDescription,
   getAlertMessage,
@@ -237,6 +241,7 @@ export const ConnectedNotificationDrawer_: React.FC<ConnectedNotificationDrawerP
   children,
 }) => {
   const { t } = useTranslation();
+  const [namespace] = useActiveNamespace();
   const dispatch = useDispatch();
   const clusterID = getClusterID(useClusterVersion());
   const showServiceLevelNotification = useShowServiceLevelNotifications(clusterID);
@@ -266,7 +271,11 @@ export const ConnectedNotificationDrawer_: React.FC<ConnectedNotificationDrawerP
       notificationPoller();
     };
 
-    const { alertManagerBaseURL, prometheusBaseURL } = window.SERVER_FLAGS;
+    const { alertManagerBaseURL } = window.SERVER_FLAGS;
+
+    const prometheusBaseURL = namespace
+      ? window.SERVER_FLAGS.prometheusTenancyBaseURL
+      : window.SERVER_FLAGS.prometheusBaseURL;
 
     if (prometheusBaseURL) {
       poll(
