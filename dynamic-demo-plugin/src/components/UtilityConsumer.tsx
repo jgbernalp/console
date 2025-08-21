@@ -8,6 +8,7 @@ import {
   PageSection,
   Title,
 } from "@patternfly/react-core";
+import { getConsoleRequestHeaders } from "@openshift-console/dynamic-plugin-sdk/lib/utils/fetch";
 
 const UtilityConsumer: React.FC = () => {
   const { t } = useTranslation("plugin__console-demo-plugin");
@@ -33,6 +34,7 @@ const UtilityConsumer: React.FC = () => {
 
 const ConsoleFetchConsumer: React.FC = () => {
   const [data, setData] = React.useState();
+  const consoleHeaders = getConsoleRequestHeaders();
 
   React.useEffect(() => {
     consoleFetchJSON("/api/kubernetes/version")
@@ -42,7 +44,12 @@ const ConsoleFetchConsumer: React.FC = () => {
       .catch((e) => console.error(e));
   }, []);
 
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return <div>
+    <p>Console Headers</p>
+    <pre>{JSON.stringify(consoleHeaders, null, 2)}</pre>
+    <p>Console Fetch response</p>
+    <pre>{JSON.stringify(data, null, 2)}</pre>
+  </div>;
 };
 
 export default UtilityConsumer;
